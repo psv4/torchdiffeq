@@ -2,6 +2,7 @@ import abc
 import torch
 from .event_handling import find_event
 from .misc import _handle_unused_kwargs
+from .misc import _compute_error_ratio, _linf_norm
 
 
 class AdaptiveStepsizeODESolver(metaclass=abc.ABCMeta):
@@ -179,3 +180,39 @@ class FixedGridODESolver(metaclass=abc.ABCMeta):
             return y1
         slope = (t - t0) / (t1 - t0)
         return y0 + slope * (y1 - y0)
+
+
+class FixedGridImplicitODESolver(FixedGridODESolver):
+    order: int
+
+    def __init__(self, func, y0, step_size=None, grid_constructor=None, interp='linear', perturb=False, rtol=1e-3, atol=1e-4, max_iters=100, **unused_kwargs):
+
+        self.rtol = torch.as_tensor(rtol, dtype=y0.dtype, device=y0.device)
+        self.atol = torch.as_tensor(atol, dtype=y0.dtype, device=y0.device)
+        self.max_iters = max_iters
+        unused_kwargs.pop('norm', None)
+        _handle_unused_kwargs(self, unused_kwargs)
+        del unused_kwargs
+
+        self.func = func
+        self.y0 = y0
+        self.dtype = y0.dtype
+        self.device = y0.device
+        self.step_size = step_size
+        self.interp = interp
+        self.perturb = perturb
+
+        if step_size is None:
+            if grid_constructor is None:
+                self.grid_constructor = lambda f, y0, t: t
+            else:
+                self.grid_constructor = grid_constructor
+        else:
+            if grid_constructor is None:
+                self.grid_constructor = self._grid_constructor_from_step_size(step_size)
+            else:
+                raise ValueError("step_size and grid_constructor are mutually exclusive arguments.")
+
+    def _has_converged(self, y0, y1):
+        error_ratio = _compute_error_ratio(torch.abs(y0 - y1), 1e-4, 1e-4, y0, y1, _linf_norm)
+        return error_ratio < 1

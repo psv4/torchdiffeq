@@ -5,6 +5,7 @@ from .bosh3 import Bosh3Solver
 from .adaptive_heun import AdaptiveHeunSolver
 from .fehlberg2 import Fehlberg2
 from .fixed_grid import Euler, Midpoint, Heun2, Heun3, RK4
+from .fixed_grid_implicit import ImplicitEuler, ImplicitMidpoint
 from .fixed_adams import AdamsBashforth, AdamsBashforthMoulton
 from .dopri8 import Dopri8Solver
 from .scipy_wrapper import ScipyWrapperODESolver
@@ -24,6 +25,8 @@ SOLVERS = {
     'rk4': RK4,
     'explicit_adams': AdamsBashforth,
     'implicit_adams': AdamsBashforthMoulton,
+    'implicit_euler': ImplicitEuler,
+    'implicit_midpoint': ImplicitMidpoint,
     # Backward compatibility: use the same name as before
     'fixed_adams': AdamsBashforthMoulton,
     # ~Backwards compatibility
