@@ -50,7 +50,7 @@ class Trapezoid(FixedGridDIRKODESolver):
 
 
 _GAUSS_LEGENDRE_4_TABLEAU = _ButcherTableau(
-    alpha=torch.tensor([1 / 2 - _sqrt_3 / 6, 1 / 2 - _sqrt_3 / 6], dtype=torch.float64),
+    alpha=torch.tensor([1 / 2 - _sqrt_3 / 6, 1 / 2 + _sqrt_3 / 6], dtype=torch.float64),
     beta=[
         torch.tensor([1 / 4, 1 / 4 - _sqrt_3 / 6], dtype=torch.float64),
         torch.tensor([1 / 4 + _sqrt_3 / 6, 1 / 4], dtype=torch.float64),
