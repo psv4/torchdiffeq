@@ -35,7 +35,7 @@ _GAUSS_LEGENDRE_6_TABLEAU = _ButcherTableau(
     c_error=torch.tensor([-5 / 6, 8 / 3, -5 / 6], dtype=torch.float64),
 )
 
-_GL6_C_MID = torch.tensor([], dtype=torch.float64)
+_GL6_C_MID = torch.tensor([-5 / 18, 19 / 18, -5 / 18], dtype=torch.float64)
 
 class GaussLegendre6(FIRKAdaptiveStepsizeODESolver):
     order = 6
