@@ -558,6 +558,25 @@ class FixedGridDIRKODESolver(FixedGridFIRKODESolver):
         return res.flatten()
 
 class FIRKAdaptiveStepsizeODESolver(RKAdaptiveStepsizeODESolver):
+    order: int
+    tableau: _ButcherTableau
+    mid: torch.Tensor
+
+    def __init__(self, func, y0, rtol, atol,
+                 min_step=0,
+                 max_step=float('inf'),
+                 first_step=None,
+                 step_t=None,
+                 jump_t=None,
+                 safety=0.9,
+                 ifactor=10.0,
+                 dfactor=0.2,
+                 max_num_steps=2 ** 31 - 1,
+                 dtype=torch.float64,
+                 max_iters=100,
+                 **kwargs):
+        super(RKAdaptiveStepsizeODESolver, self).__init__(dtype=dtype, y0=y0, **kwargs)
+        self.max_iters = max_iters
 
     def _runge_kutta_step(self, func, y0, f0, t0, dt, t1, tableau):
         if not isinstance(t0, torch.Tensor):
