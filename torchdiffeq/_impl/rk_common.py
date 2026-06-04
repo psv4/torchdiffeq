@@ -797,7 +797,7 @@ class DIRKAdaptiveStepsizeODESolver(FIRKAdaptiveStepsizeODESolver):
             dense_update = False
             for _ in range(self.max_iters):
                 if (
-                    (torch.linalg.vector_norm(f) < (tol * torch.linalg.vector_norm(k))) or
+                    (torch.linalg.vector_norm(f) < (tol * torch.linalg.vector_norm(k[i].unsqueeze(-1)))) or
                     (torch.linalg.vector_norm(f) < (tol * tol))
                 ):
                     converged = True
