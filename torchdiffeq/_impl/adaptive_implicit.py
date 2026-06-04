@@ -37,7 +37,7 @@ _GAUSS_LEGENDRE_6_TABLEAU = _ButcherTableau(
 
 _GL6_C_MID = torch.tensor([-5 / 18, 19 / 18, -5 / 18], dtype=torch.float64)
 
-class GaussLegendre6(FIRKAdaptiveStepsizeODESolver):
+class AdaptiveGaussLegendre6(FIRKAdaptiveStepsizeODESolver):
     order = 6
     tableau = _GAUSS_LEGENDRE_6_TABLEAU
     mid = _GL6_C_MID

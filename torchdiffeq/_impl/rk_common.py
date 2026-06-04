@@ -575,7 +575,20 @@ class FIRKAdaptiveStepsizeODESolver(RKAdaptiveStepsizeODESolver):
                  dtype=torch.float64,
                  max_iters=100,
                  **kwargs):
-        super(RKAdaptiveStepsizeODESolver, self).__init__(dtype=dtype, y0=y0, **kwargs)
+        super(FIRKAdaptiveStepsizeODESolver, self).__init__(
+            func, y0, rtol, atol,
+            min_step,
+            max_step,
+            first_step,
+            step_t,
+            jump_t,
+            safety,
+            ifactor,
+            dfactor,
+            max_num_steps,
+            dtype,
+            **kwargs
+        )
         self.max_iters = max_iters
 
     def _runge_kutta_step(self, func, y0, f0, t0, dt, t1, tableau):
@@ -585,7 +598,6 @@ class FIRKAdaptiveStepsizeODESolver(RKAdaptiveStepsizeODESolver):
             dt = torch.tensor(dt)
         if not isinstance(t1, torch.Tensor):
             t1 = torch.tensor(t1)
-        f0 = func(t0, y0, perturb=Perturb.NEXT if self.perturb else Perturb.NONE)
         
         t_dtype = y0.abs().dtype
         tol = 1e-8
@@ -773,7 +785,6 @@ class DIRKAdaptiveStepsizeODESolver(FIRKAdaptiveStepsizeODESolver):
             dt = torch.tensor(dt)
         if not isinstance(t1, torch.Tensor):
             t1 = torch.tensor(t1)
-        f0 = func(t0, y0, perturb=Perturb.NEXT if self.perturb else Perturb.NONE)
         
         t_dtype = y0.abs().dtype
         tol = 1e-8

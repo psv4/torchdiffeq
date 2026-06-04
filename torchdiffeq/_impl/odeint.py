@@ -10,6 +10,7 @@ from .fixed_grid_implicit import GaussLegendre4, GaussLegendre6
 from .fixed_grid_implicit import RadauIIA3, RadauIIA5
 from .fixed_grid_implicit import SDIRK2, TRBDF2
 from .fixed_adams import AdamsBashforth, AdamsBashforthMoulton
+from .adaptive_implicit import AdaptiveGaussLegendre4, AdaptiveGaussLegendre6
 from .dopri8 import Dopri8Solver
 from .tsit5 import Tsit5Solver
 from .scipy_wrapper import ScipyWrapperODESolver
@@ -39,6 +40,8 @@ SOLVERS = {
     'gl6': GaussLegendre6,
     'sdirk2': SDIRK2,
     'trbdf2': TRBDF2,
+    'adaptive_gl4': AdaptiveGaussLegendre4,
+    'adaptive_gl6': AdaptiveGaussLegendre6,
     # Backward compatibility: use the same name as before
     'fixed_adams': AdamsBashforthMoulton,
     # ~Backwards compatibility
