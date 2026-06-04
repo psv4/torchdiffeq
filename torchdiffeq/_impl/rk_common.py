@@ -556,3 +556,23 @@ class FixedGridDIRKODESolver(FixedGridFIRKODESolver):
     def _residual(self, func, K, y, t, perturb):
         res = K[...,-1] - func(t, y, perturb=perturb)
         return res.flatten()
+
+class FIRKAdaptiveStepsizeODESolver(RKAdaptiveStepsizeODESolver):
+
+    def _runge_kutta_step(self, func, y0, f0, t0, dt, t1, tableau):
+        # return y1, f1, y1_error, k
+        return NotImplementedError
+
+    def _adaptive_step(self, rk_state):
+        # return rk_state
+        return NotImplementedError
+
+    def _interp_fit(self, y0, y1, k, dt):
+        # return _interp_fit(y0, y1, y_mid, f0, f1, dt)
+        return NotImplementedError
+
+class DIRKAdaptiveStepsizeODESolver(FIRKAdaptiveStepsizeODESolver):
+
+    def _runge_kutta_step(self, func, y0, f0, t0, dt, t1, tableau):
+        # return y1, f1, y1_error, k
+        return NotImplementedError
