@@ -17,10 +17,12 @@ _GAUSS_LEGENDRE_4_TABLEAU = _ButcherTableau(
     c_error=torch.tensor([1 / 2 + _sqrt_3 / 2, 1 / 2 - _sqrt_3 / 2], dtype=torch.float64),
 )
 
+_GL4_C_MID = torch.tensor([1 / 4 + _sqrt_3 / 8, 1 / 4 - _sqrt_3 / 8], dtype=torch.float64)
+
 class AdaptiveGaussLegendre4(FIRKAdaptiveStepsizeODESolver):
     order = 4
     tableau = _GAUSS_LEGENDRE_4_TABLEAU
-    mid = torch.tensor([], dtype=torch.float64)
+    mid = _GL4_C_MID
 
 _GAUSS_LEGENDRE_6_TABLEAU = _ButcherTableau(
     alpha=torch.tensor([1 / 2 - _sqrt_15 / 10, 1 / 2, 1 / 2 + _sqrt_15 / 10], dtype=torch.float64),
@@ -33,10 +35,12 @@ _GAUSS_LEGENDRE_6_TABLEAU = _ButcherTableau(
     c_error=torch.tensor([-5 / 6, 8 / 3, -5 / 6], dtype=torch.float64),
 )
 
+_GL6_C_MID = torch.tensor([], dtype=torch.float64)
+
 class GaussLegendre6(FIRKAdaptiveStepsizeODESolver):
     order = 6
     tableau = _GAUSS_LEGENDRE_6_TABLEAU
-    mid = torch.tensor([], dtype=torch.float64)
+    mid = _GL6_C_MID
 
 # Kvaerno3
 
