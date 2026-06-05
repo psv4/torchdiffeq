@@ -42,7 +42,31 @@ class AdaptiveGaussLegendre6(FIRKAdaptiveStepsizeODESolver):
     tableau = _GAUSS_LEGENDRE_6_TABLEAU
     mid = _GL6_C_MID
 
-# Kvaerno3
+# https://github.com/patrick-kidger/diffrax/blob/main/diffrax/_solver/kvaerno3.py
+gamma = 0.43586652150
+b31 = (-4 * gamma**2 + 6 * gamma - 1) / (4 * gamma)
+b32 = (-2 * gamma + 1) / (4 * gamma)
+b41 = (6 * gamma - 1) / (12 * gamma)
+b42 = -1 / ((24 * gamma - 12) * gamma)
+b43 = (-6 * gamma**2 + 6 * gamma - 1) / (6 * gamma - 3)
+_KVAERNO_3_TABLEAU = _ButcherTableau(
+    alpha=torch.tensor([0, 2 * gamma, 1.0, 1.0]),
+    beta = [
+        torch.tensor([0], dtype=torch.float64),
+        torch.tensor([gamma, gamma], dtype=torch.float64),
+        torch.tensor([b31, b32, gamma], dtype=torch.float64),
+        torch.tensor([b41, b42, b43, gamma], dtype=torch.float64),
+    ],
+    c_sol=torch.tensor([b41, b42, b43, gamma], dtype=torch.float64),
+    c_error=torch.tensor([b41 - b31, b42 - b32, b43 - gamma, gamma])
+)
+
+_KV3_C_MID = torch.tensor([0.35414591, 0.08861962, 0.09340915, -0.03617468], dtype=torch.float64)
+
+class Kvaerno3(DIRKAdaptiveStepsizeODESolver):
+    order = 3
+    tableau = _KV3_C_MID
+    mid = _KV3_C_MID
 
 # Kvaerno4
 
