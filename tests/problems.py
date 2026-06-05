@@ -71,7 +71,9 @@ FIXED_IMPLICIT_METHODS = ('implicit_euler', 'implicit_midpoint', 'trapezoid', 'r
 FIXED_METHODS = FIXED_EXPLICIT_METHODS + FIXED_IMPLICIT_METHODS
 ADAMS_METHODS = ('explicit_adams', 'implicit_adams')
 ADAPTIVE_EXPLICIT_METHODS = ('adaptive_heun', 'fehlberg2', 'bosh3', 'tsit5', 'dopri5', 'dopri8')
-ADAPTIVE_IMPLICIT_METHODS = ('adaptive_gl4', 'adaptive_gl6', 'kvaerno3')
+# # 'adaptive_gl4' and 'adaptive_gl6' are too slow in the test suite
+# ADAPTIVE_IMPLICIT_METHODS = ('adaptive_gl4', 'adaptive_gl6', 'kvaerno3')
+ADAPTIVE_IMPLICIT_METHODS = ('kvaerno3', )
 ADAPTIVE_METHODS = ADAPTIVE_EXPLICIT_METHODS + ADAPTIVE_IMPLICIT_METHODS
 SCIPY_METHODS = ('scipy_solver',)
 IMPLICIT_METHODS = FIXED_IMPLICIT_METHODS + ADAPTIVE_IMPLICIT_METHODS
