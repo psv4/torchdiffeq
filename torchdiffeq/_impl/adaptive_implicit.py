@@ -50,7 +50,7 @@ b41 = (6 * gamma - 1) / (12 * gamma)
 b42 = -1 / ((24 * gamma - 12) * gamma)
 b43 = (-6 * gamma**2 + 6 * gamma - 1) / (6 * gamma - 3)
 _KVAERNO_3_TABLEAU = _ButcherTableau(
-    alpha=torch.tensor([0, 2 * gamma, 1.0, 1.0]),
+    alpha=torch.tensor([0, 2 * gamma, 1.0, 1.0], dtype=torch.float64),
     beta = [
         torch.tensor([0], dtype=torch.float64),
         torch.tensor([gamma, gamma], dtype=torch.float64),
@@ -65,7 +65,7 @@ _KV3_C_MID = torch.tensor([0.35414591, 0.08861962, 0.09340915, -0.03617468], dty
 
 class Kvaerno3(DIRKAdaptiveStepsizeODESolver):
     order = 3
-    tableau = _KV3_C_MID
+    tableau = _KVAERNO_3_TABLEAU
     mid = _KV3_C_MID
 
 # Kvaerno4
