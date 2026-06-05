@@ -797,15 +797,15 @@ class DIRKAdaptiveStepsizeODESolver(FIRKAdaptiveStepsizeODESolver):
         dt = dt.to(t_dtype)
         t1 = t1.to(t_dtype)
 
-        k = [f0.clone()] * len(self.tableau.alpha)
+        k = [f0.clone() for _ in range(len(tableau.alpha))]
 
-        for i, (alpha_i, beta_i) in enumerate(zip(self.tableau.alpha, self.tableau.beta)):
+        for i, (alpha_i, beta_i) in enumerate(zip(tableau.alpha, tableau.beta)):
             perturb = Perturb.NONE
             if alpha_i == 1.:
                 ti = t1
                 perturb = Perturb.PREV
             elif alpha_i == 0.:
-                if not torch.all(self.tableau.beta[i]):
+                if not torch.all(tableau.beta[i]):
                     # Same slope as stored so skip
                     continue
                 ti = t0
@@ -859,7 +859,8 @@ class DIRKAdaptiveStepsizeODESolver(FIRKAdaptiveStepsizeODESolver):
             if not converged:
                 warnings.warn('Functional iteration did not converge. Solution may be incorrect.')
 
-        y1 = y0 + torch.matmul(torch.stack(k, -1), dt * self.tableau.c_sol)
+        k = torch.stack(k, -1)
+        y1 = y0 + torch.matmul(k, dt * tableau.c_sol)
         f1 = k[..., -1]
         y1_error = torch.sum(k * (dt * tableau.c_error), dim=-1)
         return y1, f1, y1_error, k
