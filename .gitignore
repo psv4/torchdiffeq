@@ -6,6 +6,3 @@
 .vscode
 build
 dist
-
-# Virtual Environments
-.venv
