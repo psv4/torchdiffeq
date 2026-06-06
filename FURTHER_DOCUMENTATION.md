@@ -29,6 +29,18 @@ For these solvers, `rtol` and `atol` correspond to the tolerances for accepting/
 
 - `perturb`: Defaults to False. If True, then automatically add small perturbations to the start and end of each step, so that stepping to discontinuities works. Note that this this may not be efficient when using PyTorch 1.6.0 or earlier.
 
+**Implicit fixed solvers (implicit_euler, implicit_midpoint, trapezoid, radauIIA3, radauIIA5, gl4, gl6, sdirk2, trbdf2):**<br>
+
+All options from adaptive solvers are here as well. Additional parameters also include:
+
+- `max_iters`: The maximum number of Sherman-Morrison iterations to minimize the implicit solution residual.
+
+**Implicit adaptive solvers (adaptive_gl4, adaptive_gl6, kvaerno3, kvaerno4, kvaerno5):**<br>
+
+All options from adaptive solvers are here as well. Additional parameters also include:
+
+- `max_iters`: The maximum number of Sherman-Morrison iterations to minimize the implicit solution residual.
+
 Individual solvers also offer certain options.
 
 **explicit_adams:**<br>
@@ -42,18 +54,6 @@ For this solver, `rtol` and `atol` correspond to the tolerance for convergence o
 - `max_order`: The maximum order of the Adams-Bashforth-Moulton predictor-corrector.
 
 - `max_iters`: The maximum number of iterations to run the Adams-Moulton corrector for.
-
-**Implicit fixed solvers (implicit_euler, implicit_midpoint, trapezoid, radauIIA3, radauIIA5, gl4, gl6, sdirk2, trbdf2):**<br>
-
-All options from adaptive solvers are here as well. Additional parameters also include:
-
-- `max_iters`: The maximum number of Sherman-Morrison iterations to minimize the implicit solution residual.
-
-**Implicit adaptive solvers (adaptive_gl4, adaptive_gl6, kvaerno3, kvaerno4, kvaerno5):**<br>
-
-All options from adaptive solvers are here as well. Additional parameters also include:
-
-- `max_iters`: The maximum number of Sherman-Morrison iterations to minimize the implicit solution residual.
 
 **scipy_solver:**<br>
 - `solver`: which SciPy solver to use; corresponds to the `'method'` argument of `scipy.integrate.solve_ivp`.
