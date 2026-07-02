@@ -23,7 +23,7 @@ Keep all documentation descriptive and concise.
 
 ## AI-Assisted Development
 
-The use of AI and LLMs are encouraged. However, all issues and pull requests are reviewed by people. Please keep these thoughts in mind:
+The use of AI and LLMs is encouraged. However, all issues and pull requests are reviewed by people. Please keep these thoughts in mind:
 
 - **You are personally responsible for what you send.**
 - **Create a short and to the point issue / solution about the problem at the top.**
