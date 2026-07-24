@@ -346,9 +346,15 @@ def _check_inputs(func, y0, t, rtol, atol, method, options, event_fn, SOLVERS):
 
 
 class _StitchGradient(torch.autograd.Function):
+    generate_vmap_rule=True
+
     @staticmethod
-    def forward(ctx, x1, out):
+    def forward(x1, out):
         return out
+
+    @staticmethod
+    def setup_context(ctx, inputs, output):
+        pass
 
     @staticmethod
     def backward(ctx, grad_out):

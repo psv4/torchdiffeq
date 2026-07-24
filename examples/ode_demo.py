@@ -17,6 +17,7 @@ parser.add_argument('--test_freq', type=int, default=20)
 parser.add_argument('--viz', action='store_true')
 parser.add_argument('--gpu', type=int, default=0)
 parser.add_argument('--adjoint', action='store_true')
+parser.add_argument('--vmap', action='store_true')
 args = parser.parse_args()
 
 if args.adjoint:
@@ -163,7 +164,11 @@ if __name__ == '__main__':
     for itr in range(1, args.niters + 1):
         optimizer.zero_grad()
         batch_y0, batch_t, batch_y = get_batch()
-        pred_y = odeint(func, batch_y0, batch_t).to(device)
+        if args.vmap:
+            caller = torch.vmap(lambda y0, t: odeint(func, y0, t, method='rk4'), in_dims=(0, None), out_dims=1)
+        else:
+            caller = lambda y0, t: odeint(func, y0, t)
+        pred_y = caller(batch_y0, batch_t) #odeint(func, batch_y0, batch_t).to(device)
         loss = torch.mean(torch.abs(pred_y - batch_y))
         loss.backward()
         optimizer.step()
